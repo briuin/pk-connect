@@ -17,6 +17,7 @@ const prodConfig = {
       filename: 'remoteEntry.js',
       exposes: {
         './ConnectionStatus': './src/components/ConnectionStatus',
+        './ConnectionService': './src/services/connection.service',
       },
       shared: {
         ...packageJson.dependencies,

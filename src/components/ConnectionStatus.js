@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
+import ConnectionService from '../services/connection.service';
 
 const useStyles = makeStyles((theme) => ({
   status: {
