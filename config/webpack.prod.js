@@ -9,7 +9,6 @@ const prodConfig = {
   mode: 'production',
   output: {
     path: path.resolve(__dirname, '../docs'),
-    publicPath: 'https://briuin.github.io/pk-connect/'
   },
   plugins: [
     new CleanWebpackPlugin(),
