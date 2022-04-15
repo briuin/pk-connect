@@ -24,7 +24,6 @@ const prodConfig = {
     new ModuleFederationPlugin({
       name: 'pkConnect',
       filename: 'remoteEntry.js',
-      library: { type: "system" },
       exposes: {
         './ConnectionStatus': './src/components/ConnectionStatus',
       },
