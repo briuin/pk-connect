@@ -36,6 +36,7 @@ export default function ConnectionStatus() {
   // const classes = useStyles();
   const tokenJSON = localStorage.getItem("token");
   const [token, setToken] = useState(tokenJSON && JSON.parse(tokenJSON).value);
+  let isLoading = false;
 
   useEffect(async () => {
     if (!token) {
@@ -64,13 +65,31 @@ export default function ConnectionStatus() {
     location.href = "https://pk.land/#/account/login";
   }
 
+  function play() {
+    if (isLoading) {
+      return;
+    }
+    isLoading = true;
+    fetch("https://pk-center.herokuapp.com/auth/guest", {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        localStorage.setItem("token", JSON.stringify({value: data.access_token}));
+        setToken(data.access_token);
+      }).finally(() => {
+        isLoading = false;
+      });
+  }
+
   return (
       <React.Fragment>
         {token && <div className='pkc-status'>connected</div>}
         {!token && (
           <div className='pkc-modal'>
+            <div className='pkc-modal-overlay'></div>
             <div className='pkc-modal-content'>
-              <button>Play as guest</button>
+              <button onClick={play}>Play as guest</button>
               <button onClick={login}>Login PK account</button>
             </div>
           </div>
