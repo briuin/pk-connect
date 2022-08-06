@@ -12,10 +12,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ConnectionStatus() {
   const classes = useStyles();
+  const tokenJSON = localStorage.getItem("token");
+  const token = tokenJSON && JSON.parse(tokenJSON).value;
+
+  if (!token) {
+
+  }
 
   return (
     <React.Fragment>
       <div className={classes.status}>connected</div>
+      {
+        !token && (<div>
+          <button>Play as guest</button>
+          <button>Login PK account</button>
+        </div>)
+      }
     </React.Fragment>
   );
 }
