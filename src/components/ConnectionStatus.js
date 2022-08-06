@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { makeStyles, StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
+import {
+  makeStyles,
+  StylesProvider,
+  createGenerateClassName,
+} from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
 
 const generateClassName = createGenerateClassName({
@@ -32,20 +36,21 @@ export default function ConnectionStatus() {
   const tokenJSON = localStorage.getItem("token");
   const [token, setToken] = useState(tokenJSON && JSON.parse(tokenJSON).value);
 
-  if (token) {
-    useEffect(async () => {
-      try {
-        await fetch("https://pk-center.herokuapp.com/auth/reconnect", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      } catch (e) {
-        setToken(null);
-      }
+  useEffect(async () => {
+    if (!token) {
+      return;
+    }
+
+    await fetch("https://pk-center.herokuapp.com/auth/reconnect", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).catch((e) => {
+      localStorage.removeItem("token");
+      setToken(null);
     });
-  }
+  }, []);
 
   function login() {
     location.href = "https://pk.land/#/account/login";
