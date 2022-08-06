@@ -19,6 +19,7 @@
   background: rgba(0, 0, 0, 0.7);
 }
 .pkc-modal-content {
+  z-index: 1;
   width: 300px;
   height: 200px;
 }
