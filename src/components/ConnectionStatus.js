@@ -4,6 +4,7 @@ import { makeStyles, StylesProvider, createGenerateClassName } from "@material-u
 import singleSpaReact from "single-spa-react";
 
 const generateClassName = createGenerateClassName({
+  seed: "pk-connect",
   productionPrefix: "pk-connect",
 });
 
