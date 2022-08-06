@@ -13,8 +13,18 @@ class ConnectionService {
       return;
     }
 
+    const tokenJSON = localStorage.getItem("token");
+    const token = tokenJSON && JSON.parse(tokenJSON).value;
+
     this.socket = io(url, {
-      withCredentials: true
+      withCredentials: true,
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+      }
     });
     this.isConnecting = true;
     this.socket.on("connect", this.onConnect);
