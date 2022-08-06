@@ -12,7 +12,7 @@
     "react-dom": "^17.0.1",
     "single-spa": "^5.9.3",
     "single-spa-react": "^4.6.1",
-    "socket.io-client": "2.4.0",
+    "socket.io-client": "^4.5.1",
     "systemjs-webpack-interop": "^2.3.7"
   },
   "devDependencies": {

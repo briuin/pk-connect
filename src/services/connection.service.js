@@ -13,7 +13,9 @@ class ConnectionService {
       return;
     }
 
-    this.socket = io(url);
+    this.socket = io(url, {
+      withCredentials: true
+    });
     this.isConnecting = true;
     this.socket.on("connect", this.onConnect);
   }
