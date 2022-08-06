@@ -1,18 +1,29 @@
-import React, { useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, StylesProvider, createGenerateClassName } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
-import ConnectionService from "../services/connection.service";
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: "pk-connect",
+});
 
 const useStyles = makeStyles((theme) => ({
   status: {
     color: "lime",
   },
   modal: {
-    position: 'fixed',
-    zIndex: '500',
-    margin: '100px auto'
-  }
+    position: "fixed",
+    zIndex: "500",
+    width: "100%",
+    height: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    width: "300px",
+    height: "200px",
+  },
 }));
 
 export default function ConnectionStatus() {
@@ -40,15 +51,19 @@ export default function ConnectionStatus() {
   }
 
   return (
-    <React.Fragment>
-      {token && <div className={classes.status}>connected</div>}
-      {!token && (
-        <div className={classes.modal}>
-          <button>Play as guest</button>
-          <button onClick={login}>Login PK account</button>
-        </div>
-      )}
-    </React.Fragment>
+    <StylesProvider generateClassName={generateClassName}>
+      <React.Fragment>
+        {token && <div className={classes.status}>connected</div>}
+        {!token && (
+          <div className={classes.modal}>
+            <div className={classes.modalContent}>
+              <button>Play as guest</button>
+              <button onClick={login}>Login PK account</button>
+            </div>
+          </div>
+        )}
+      </React.Fragment>
+    </StylesProvider>
   );
 }
 
