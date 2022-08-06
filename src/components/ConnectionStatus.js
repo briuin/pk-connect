@@ -6,13 +6,14 @@ import {
   createGenerateClassName,
 } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
+import './ConnectionStatus.css';
 
 const generateClassName = createGenerateClassName({
   seed: "pk-connect",
   productionPrefix: "pk-connect",
 });
 
-const useStyles = makeStyles((theme) => ({
+/*const useStyles = makeStyles((theme) => ({
   status: {
     color: "lime",
   },
@@ -29,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     width: "300px",
     height: "200px",
   },
-}));
+}));*/
 
 export default function ConnectionStatus() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const tokenJSON = localStorage.getItem("token");
   const [token, setToken] = useState(tokenJSON && JSON.parse(tokenJSON).value);
 
@@ -64,19 +65,17 @@ export default function ConnectionStatus() {
   }
 
   return (
-    <StylesProvider generateClassName={generateClassName}>
       <React.Fragment>
-        {token && <div className={classes.status}>connected</div>}
+        {token && <div className='pkc-status'>connected</div>}
         {!token && (
-          <div className={classes.modal}>
-            <div className={classes.modalContent}>
+          <div className='pkc-modal'>
+            <div className='pkc-modal-content'>
               <button>Play as guest</button>
               <button onClick={login}>Login PK account</button>
             </div>
           </div>
         )}
       </React.Fragment>
-    </StylesProvider>
   );
 }
 
