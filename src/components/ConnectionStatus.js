@@ -8,6 +8,11 @@ const useStyles = makeStyles((theme) => ({
   status: {
     color: "lime",
   },
+  modal: {
+    position: 'fixed',
+    zIndex: '500',
+    margin: '100px auto'
+  }
 }));
 
 export default function ConnectionStatus() {
@@ -18,7 +23,7 @@ export default function ConnectionStatus() {
   if (token) {
     useEffect(async () => {
       try {
-        await fetch("https://pk-center.herokuapp.com/auth/login", {
+        await fetch("https://pk-center.herokuapp.com/auth/reconnect", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -38,7 +43,7 @@ export default function ConnectionStatus() {
     <React.Fragment>
       {token && <div className={classes.status}>connected</div>}
       {!token && (
-        <div>
+        <div className={classes.modal}>
           <button>Play as guest</button>
           <button onClick={login}>Login PK account</button>
         </div>
