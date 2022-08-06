@@ -46,10 +46,17 @@ export default function ConnectionStatus() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).catch((e) => {
-      localStorage.removeItem("token");
-      setToken(null);
-    });
+    })
+      .then((response) => {
+        if (response.status >= 400 && response.status < 600) {
+          throw new Error("Bad response from server");
+        }
+        return response;
+      })
+      .catch((e) => {
+        localStorage.removeItem("token");
+        setToken(null);
+      });
   }, []);
 
   function login() {
