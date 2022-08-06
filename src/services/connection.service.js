@@ -13,6 +13,7 @@ class ConnectionService {
 
   setUser(user) {
     this.user = user;
+    console.log(user, user.username)
   }
 
   init(url) {
