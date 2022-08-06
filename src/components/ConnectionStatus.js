@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
-import ConnectionService from '../services/connection.service';
+import ConnectionService from "../services/connection.service";
 
 const useStyles = makeStyles((theme) => ({
   status: {
@@ -13,21 +13,36 @@ const useStyles = makeStyles((theme) => ({
 export default function ConnectionStatus() {
   const classes = useStyles();
   const tokenJSON = localStorage.getItem("token");
-  const token = tokenJSON && JSON.parse(tokenJSON).value;
+  const [token, setToken] = useState(tokenJSON && JSON.parse(tokenJSON).value);
 
-  if (!token) {
+  if (token) {
+    useEffect(async () => {
+      try {
+        await fetch("https://pk-center.herokuapp.com/auth/login", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (e) {
+        setToken(null);
+      }
+    });
+  }
 
+  function login() {
+    location.href = "https://pk.land/#/account/login";
   }
 
   return (
     <React.Fragment>
-      <div className={classes.status}>connected</div>
-      {
-        !token && (<div>
+      {token && <div className={classes.status}>connected</div>}
+      {!token && (
+        <div>
           <button>Play as guest</button>
-          <button>Login PK account</button>
-        </div>)
-      }
+          <button onClick={login}>Login PK account</button>
+        </div>
+      )}
     </React.Fragment>
   );
 }
