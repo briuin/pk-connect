@@ -7,6 +7,8 @@ import {
 } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
 import './ConnectionStatus.css';
+import jwt_decode from "jwt-decode";
+import ConnectionService from "../services/connection.service";
 
 const generateClassName = createGenerateClassName({
   seed: "pk-connect",
@@ -53,6 +55,7 @@ export default function ConnectionStatus() {
         if (response.status >= 400 && response.status < 600) {
           throw new Error("Bad response from server");
         }
+        ConnectionService.setUser(jwt_decode(token));
         return response;
       })
       .catch((e) => {
@@ -77,6 +80,7 @@ export default function ConnectionStatus() {
       .then((data) => {
         localStorage.setItem("token", JSON.stringify({value: data.access_token}));
         setToken(data.access_token);
+        ConnectionService.setUser(jwt_decode(data.access_token));
       }).finally(() => {
         isLoading = false;
       });

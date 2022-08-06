@@ -3,9 +3,16 @@ import io from "socket.io-client";
 class ConnectionService {
   isConnecting = false;
   socket = null;
+  user = {
+    username: ''
+  };
 
   isConnected() {
     return this.socket && this.socket.connected || false;
+  }
+
+  setUser(user) {
+    this.user = user;
   }
 
   init(url) {
