@@ -13,7 +13,11 @@ class ConnectionService {
 
   setUser(user) {
     this.user = user;
-    console.log(user, user.username)
+    if (this.socket) {
+      this.socket.emit("updateUserInfo", {
+        username: user.username
+      });
+    }
   }
 
   init(url) {
