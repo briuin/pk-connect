@@ -11,6 +11,14 @@ class ConnectionService {
     return this.socket && this.socket.connected || false;
   }
 
+  isAuthenticated() {
+    return this.user && this.user.username;
+  }
+
+  logout() {
+    localStorage.removeItem("token");
+  }
+
   setUser(user) {
     this.user = user;
     if (this.socket) {
