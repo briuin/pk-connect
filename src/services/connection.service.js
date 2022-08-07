@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+import { BehaviorSubject } from 'rxjs';
 
 class ConnectionService {
   isConnecting = false;
@@ -6,6 +7,8 @@ class ConnectionService {
   user = {
     username: ''
   };
+  isAuthenticatedSubject = new BehaviorSubject(false);
+  isAuthenticated$ = isAuthenticatedSubject.asObservable();
 
   isConnected() {
     return this.socket && this.socket.connected || false;
@@ -17,7 +20,8 @@ class ConnectionService {
 
   logout(options = {redirectToHomepage: true}) {
     localStorage.removeItem("token");
-
+    this.user = {};
+    this.isAuthenticatedSubject.next(false);
     if (options.redirectToHomepage) {
       location.href = "/";
     }
@@ -25,6 +29,7 @@ class ConnectionService {
 
   setUser(user) {
     this.user = user;
+    this.isAuthenticatedSubject.next(true);
     if (this.socket) {
       this.socket.emit("updateUserInfo", {
         username: user.username
