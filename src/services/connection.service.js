@@ -15,8 +15,12 @@ class ConnectionService {
     return this.user && this.user.username;
   }
 
-  logout() {
+  logout(options = {redirectToHomepage: true}) {
     localStorage.removeItem("token");
+
+    if (options.redirectToHomepage) {
+      location.href = "/";
+    }
   }
 
   setUser(user) {
