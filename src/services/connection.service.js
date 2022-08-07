@@ -8,7 +8,7 @@ class ConnectionService {
     username: ''
   };
   isAuthenticatedSubject = new BehaviorSubject(false);
-  isAuthenticated$ = isAuthenticatedSubject.asObservable();
+  isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
   isConnected() {
     return this.socket && this.socket.connected || false;
