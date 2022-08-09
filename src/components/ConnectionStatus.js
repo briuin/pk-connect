@@ -6,7 +6,7 @@ import {
   createGenerateClassName,
 } from "@material-ui/core/styles";
 import singleSpaReact from "single-spa-react";
-import './ConnectionStatus.css';
+import "./ConnectionStatus.css";
 import jwt_decode from "jwt-decode";
 import ConnectionService from "../services/connection.service";
 
@@ -78,27 +78,48 @@ export default function ConnectionStatus() {
     })
       .then((response) => response.json())
       .then((data) => {
-        localStorage.setItem("token", JSON.stringify({value: data.access_token}));
+        localStorage.setItem(
+          "token",
+          JSON.stringify({ value: data.access_token })
+        );
         setToken(data.access_token);
         ConnectionService.setUser(jwt_decode(data.access_token));
-      }).finally(() => {
+      })
+      .finally(() => {
         isLoading = false;
       });
   }
 
   return (
-      <React.Fragment>
-        {token && <div className='pkc-status'>connected</div>}
-        {!token && (
-          <div className='pkc-modal'>
-            <div className='pkc-modal-overlay'></div>
-            <div className='pkc-modal-content'>
-              <button onClick={play}>Play as guest</button>
-              <button onClick={login}>Login PK account</button>
-            </div>
+    <React.Fragment>
+      {token && <div className="pkc-status">connected</div>}
+      {!token && (
+        <div className="pkc-modal">
+          <div className="pkc-modal-overlay"></div>
+          <div className="pkc-modal-content">
+            <button className="cybr-btn" onClick={play}>
+              Guest<span aria-hidden>_</span>
+              <span aria-hidden class="cybr-btn__glitch">
+                Guest_
+              </span>
+              <span aria-hidden class="cybr-btn__tag">
+                PK
+              </span>
+            </button>
+            <button className="cybr-btn" onClick={login}>
+              {" "}
+              Login<span aria-hidden>_</span>
+              <span aria-hidden class="cybr-btn__glitch">
+                Login_
+              </span>
+              <span aria-hidden class="cybr-btn__tag">
+                PK
+              </span>
+            </button>
           </div>
-        )}
-      </React.Fragment>
+        </div>
+      )}
+    </React.Fragment>
   );
 }
 
